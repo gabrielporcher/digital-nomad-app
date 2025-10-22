@@ -1,36 +1,36 @@
-import { Box } from "@/src/components/Box";
 import { CityCard } from "@/src/components/CityCard";
+import { Screen } from "@/src/components/Screen";
 import { cityPreviewList } from "@/src/data/cities";
+import { useAppTheme } from "@/src/theme/useAppTheme";
 import { CityPreview } from "@/src/types";
-import { FlatList, ListRenderItemInfo, StyleSheet } from "react-native";
+import { useScrollToTop } from "@react-navigation/native";
+import { useRef } from "react";
+import { FlatList, ListRenderItemInfo } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
+  const { spacing } = useAppTheme();
+  const { top } = useSafeAreaInsets();
+  const flatListRef = useRef(null);
+  useScrollToTop(flatListRef);
   function renderItem({ item }: ListRenderItemInfo<CityPreview>) {
     return <CityCard cityPreview={item} />;
   }
 
   return (
-    <Box backgroundColor="mainBackground">
-      <FlatList data={cityPreviewList} renderItem={renderItem} />
-    </Box>
+    <Screen>
+      <FlatList
+        contentContainerStyle={{
+          gap: spacing.padding,
+          paddingTop: top,
+          paddingBottom: spacing.padding,
+        }}
+        data={cityPreviewList}
+        ref={flatListRef}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+      />
+    </Screen>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-  },
-});
