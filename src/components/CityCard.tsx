@@ -17,6 +17,13 @@ export function CityCard({ cityPreview }: CityCardProps) {
       style={{ width: "100%", height: 280 }}
       imageStyle={{ borderRadius: borderRadii.default }}
     >
+      <Box
+        position="absolute"
+        width="100%"
+        height="100%"
+        backgroundColor="midnightBlack"
+        opacity={0.25}
+      />
       <Box padding="s24" flex={1} justifyContent="space-between">
         <Box alignSelf="flex-end">
           <Icon name="Favorite-outline" color="primary" />
